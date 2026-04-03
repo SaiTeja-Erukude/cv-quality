@@ -1,6 +1,6 @@
 """PyTorch model backend for active learning.
 
-Requires ``torch`` and ``torchvision`` (install with ``pip install cvdatakit[torch]``).
+Requires ``torch`` and ``torchvision`` (install with ``pip install cvquality[torch]``).
 """
 
 from __future__ import annotations
@@ -245,7 +245,7 @@ class PyTorchBackend(ModelBackend):
         except ImportError as exc:
             raise ImportError(
                 "torchvision is required for the default transform. "
-                "Install with: pip install cvdatakit[torch]"
+                "Install with: pip install cvquality[torch]"
             ) from exc
 
     def _resolve_layer(self, model: Any, name: str) -> Any:

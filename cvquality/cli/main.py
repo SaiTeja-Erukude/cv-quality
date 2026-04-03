@@ -1,4 +1,4 @@
-"""CLI entry point: ``cvdatakit``."""
+"""CLI entry point: ``cvquality``."""
 
 from __future__ import annotations
 
@@ -19,9 +19,9 @@ console = Console()
 # ── root group ────────────────────────────────────────────────────────────────
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
-@click.version_option(package_name="cvdatakit", prog_name="cvdatakit")
+@click.version_option(package_name="cvquality", prog_name="cvquality")
 def cli() -> None:
-    """cvdatakit – Dataset-centric CV toolkit.\n
+    """cvquality – Dataset-centric CV toolkit.\n
     Run dataset statistics, annotation checks, mislabel detection, and
     active-learning analysis on COCO-format datasets.
     """
@@ -45,10 +45,10 @@ def stats_cmd(
     tail_pct: float,
 ) -> None:
     """Print dataset statistics for a COCO annotation file."""
-    from cvdatakit.io.coco_reader import COCODataset
-    from cvdatakit.stats.dataset_stats import DatasetStats
+    from cvquality.io.coco_reader import COCODataset
+    from cvquality.stats.dataset_stats import DatasetStats
 
-    console.print(Panel(f"[bold cyan]cvdatakit stats[/] – {annotation_file}"))
+    console.print(Panel(f"[bold cyan]cvquality stats[/] – {annotation_file}"))
 
     ds = COCODataset(annotation_file, image_dir=image_dir)
     stats = DatasetStats(ds)
@@ -109,10 +109,10 @@ def check_cmd(
     output: Optional[str],
 ) -> None:
     """Run annotation-quality checks on a COCO annotation file."""
-    from cvdatakit.io.coco_reader import COCODataset
-    from cvdatakit.quality.annotation_checks import AnnotationChecker
+    from cvquality.io.coco_reader import COCODataset
+    from cvquality.quality.annotation_checks import AnnotationChecker
 
-    console.print(Panel(f"[bold cyan]cvdatakit check[/] – {annotation_file}"))
+    console.print(Panel(f"[bold cyan]cvquality check[/] – {annotation_file}"))
 
     ds = COCODataset(annotation_file)
     checker = AnnotationChecker(ds, min_bbox_area=min_bbox_area, max_overlap_iou=max_iou)
@@ -165,9 +165,9 @@ def report_cmd(
     tail_pct: float,
 ) -> None:
     """Generate a full HTML + JSON report for a COCO-format dataset."""
-    from cvdatakit.recipes.coco import COCORecipe
+    from cvquality.recipes.coco import COCORecipe
 
-    console.print(Panel(f"[bold cyan]cvdatakit report[/] – {annotation_file}"))
+    console.print(Panel(f"[bold cyan]cvquality report[/] – {annotation_file}"))
 
     recipe = COCORecipe(
         annotation_file,
@@ -219,9 +219,9 @@ def imagenet_cmd(
     max_per_class: Optional[int],
 ) -> None:
     """Run statistics on an ImageNet flat-folder dataset."""
-    from cvdatakit.recipes.imagenet import ImageNetRecipe
+    from cvquality.recipes.imagenet import ImageNetRecipe
 
-    console.print(Panel(f"[bold cyan]cvdatakit imagenet[/] – {root_dir}"))
+    console.print(Panel(f"[bold cyan]cvquality imagenet[/] – {root_dir}"))
 
     recipe = ImageNetRecipe(
         root_dir,

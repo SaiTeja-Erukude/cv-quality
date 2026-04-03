@@ -1,4 +1,4 @@
-"""Tests for cvdatakit.quality."""
+"""Tests for cvquality.quality."""
 
 from __future__ import annotations
 
@@ -8,10 +8,10 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from cvdatakit.io.coco_reader import COCODataset
-from cvdatakit.quality.annotation_checks import AnnotationChecker, AnnotationIssue, _bbox_iou
-from cvdatakit.quality.label_quality import LabelQualityScorer
-from cvdatakit.quality.mislabel_detection import MislabelDetector
+from cvquality.io.coco_reader import COCODataset
+from cvquality.quality.annotation_checks import AnnotationChecker, AnnotationIssue, _bbox_iou
+from cvquality.quality.label_quality import LabelQualityScorer
+from cvquality.quality.mislabel_detection import MislabelDetector
 
 
 # ── AnnotationChecker ─────────────────────────────────────────────────────────

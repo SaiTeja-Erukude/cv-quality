@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
-from cvdatakit.io.coco_reader import COCODataset
+from cvquality.io.coco_reader import COCODataset
 
 
 @dataclass
@@ -26,7 +26,7 @@ class AnnotationChecker:
     Parameters
     ----------
     dataset:
-        Loaded :class:`~cvdatakit.io.COCODataset`.
+        Loaded :class:`~cvquality.io.COCODataset`.
     min_bbox_area:
         Boxes whose pixel area is below this threshold trigger a warning.
     max_overlap_iou:

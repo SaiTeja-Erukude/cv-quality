@@ -10,7 +10,7 @@ ImageNet does not use COCO format; images are organised as::
             ...
 
 This module converts such a structure to an in-memory COCO-compatible
-:class:`~cvdatakit.io.COCODataset` and exposes the same analysis pipeline.
+:class:`~cvquality.io.COCODataset` and exposes the same analysis pipeline.
 """
 
 from __future__ import annotations
@@ -21,9 +21,9 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
-from cvdatakit.io.coco_reader import COCODataset
-from cvdatakit.io.report import ReportGenerator
-from cvdatakit.stats.dataset_stats import DatasetStats
+from cvquality.io.coco_reader import COCODataset
+from cvquality.io.report import ReportGenerator
+from cvquality.stats.dataset_stats import DatasetStats
 
 
 _IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".webp"}
@@ -45,7 +45,7 @@ class ImageNetRecipe:
 
     Example
     -------
-    >>> from cvdatakit.recipes import ImageNetRecipe
+    >>> from cvquality.recipes import ImageNetRecipe
     >>> recipe = ImageNetRecipe("/data/imagenet/val")
     >>> report = recipe.run()
     """

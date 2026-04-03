@@ -1,15 +1,15 @@
 [build-system]
-requires = ["setuptools>=61", "wheel"]
+requires = ["setuptools>=61,<77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cvdatakit"
+name = "cv-quality"
 version = "0.1.0"
 description = "Dataset-centric CV toolkit: label-quality checks, mislabel detection, class-imbalance analysis, and active-learning loop orchestration."
 readme = "README.md"
-license = { file = "LICENSE" }
+license = { text = "MIT" }
 requires-python = ">=3.9"
-authors = [{ name = "CV Data-Centric Toolkit Contributors" }]
+authors = [{ name = "Sai Teja Erukude" }]
 keywords = [
     "computer-vision",
     "active-learning",
@@ -22,7 +22,6 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -56,19 +55,19 @@ dev = [
 ]
 
 [project.scripts]
-cvdatakit = "cvdatakit.cli.main:cli"
+cvquality = "cvquality.cli.main:cli"
 
 [project.urls]
-Homepage = "https://github.com/your-org/cvdatakit"
-Repository = "https://github.com/your-org/cvdatakit"
-Issues = "https://github.com/your-org/cvdatakit/issues"
+Homepage = "https://github.com/SaiTeja-Erukude/cv-quality"
+Repository = "https://github.com/SaiTeja-Erukude/cv-quality"
+Issues = "https://github.com/SaiTeja-Erukude/cv-quality/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["cvdatakit*"]
+include = ["cvquality*"]
 
 [tool.setuptools.package-data]
-cvdatakit = ["py.typed"]
+cvquality = ["py.typed"]
 
 [tool.ruff]
 line-length = 100

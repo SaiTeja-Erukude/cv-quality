@@ -86,7 +86,7 @@ def _render_html(
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>cvdatakit – {_escape(dataset_name)}</title>
+  <title>cvquality – {_escape(dataset_name)}</title>
   <style>
     :root{{--bg:#0f1117;--surface:#1e2130;--border:#2d3148;--accent:#7c83f7;
            --text:#e2e8f0;--muted:#8892a4;--warn:#f6ad55;--err:#fc8181;}}
@@ -113,7 +113,7 @@ def _render_html(
   </style>
 </head>
 <body>
-  <h1>cvdatakit Report – {_escape(dataset_name)}</h1>
+  <h1>cvquality Report – {_escape(dataset_name)}</h1>
   <p class="meta">Generated {_escape(created_at)}</p>
   {body}
 </body>

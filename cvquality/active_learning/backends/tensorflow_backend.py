@@ -1,6 +1,6 @@
 """TensorFlow / Keras model backend for active learning.
 
-Requires TensorFlow ≥ 2.13 (install with ``pip install cvdatakit[tensorflow]``).
+Requires TensorFlow ≥ 2.13 (install with ``pip install cvquality[tensorflow]``).
 """
 
 from __future__ import annotations

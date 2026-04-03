@@ -1,4 +1,4 @@
-# cvdatakit – Computer Vision Data-Centric Toolkit
+# cvquality – Computer Vision Data-Centric Toolkit
 
 A Python library for **dataset-centric CV work**: label-quality checks,
 class-imbalance analysis, mislabel detection, and active-learning loop
@@ -6,16 +6,36 @@ orchestration. Targets COCO/ImageNet datasets and their long-tail derivatives.
 
 ---
 
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+  - [Dataset statistics](#dataset-statistics)
+  - [Annotation quality checks](#annotation-quality-checks)
+  - [Label quality scoring](#label-quality-scoring-confident-learning)
+  - [Mislabel detection](#mislabel-detection)
+  - [Active learning](#active-learning)
+  - [COCO full-pipeline recipe](#coco-full-pipeline-recipe)
+- [CLI](#cli)
+- [Supported Dataset Formats](#supported-dataset-formats)
+- [Project Structure](#project-structure)
+- [Publishing to PyPI](#publishing-to-pypi)
+- [Authors](#authors)
+- [License](#license)
+
+---
+
 ## Features
 
 | Module | What it does |
 |--------|-------------|
-| `cvdatakit.stats` | Dataset statistics: class counts, bbox distributions, Gini/entropy imbalance metrics, co-occurrence matrix |
-| `cvdatakit.quality` | Annotation integrity checks (out-of-bounds, duplicates, tiny boxes), Confident-Learning label-quality scoring, kNN-based mislabel detection |
-| `cvdatakit.active_learning` | Uncertainty (entropy, margin, LC, BALD), Diversity (CoreSet, cluster-margin, MinMax), Error-Localization (gradient norm, spatial entropy) strategies + loop orchestrator |
-| `cvdatakit.recipes` | Ready-made pipelines for COCO and ImageNet-style datasets |
-| `cvdatakit.io` | COCO-format reader + HTML/JSON report generator |
-| `cvdatakit.cli` | `cvdatakit` CLI: `stats`, `check`, `report`, `imagenet` commands |
+| `cvquality.stats` | Dataset statistics: class counts, bbox distributions, Gini/entropy imbalance metrics, co-occurrence matrix |
+| `cvquality.quality` | Annotation integrity checks (out-of-bounds, duplicates, tiny boxes), Confident-Learning label-quality scoring, kNN-based mislabel detection |
+| `cvquality.active_learning` | Uncertainty (entropy, margin, LC, BALD), Diversity (CoreSet, cluster-margin, MinMax), Error-Localization (gradient norm, spatial entropy) strategies + loop orchestrator |
+| `cvquality.recipes` | Ready-made pipelines for COCO and ImageNet-style datasets |
+| `cvquality.io` | COCO-format reader + HTML/JSON report generator |
+| `cvquality.cli` | `cvquality` CLI: `stats`, `check`, `report`, `imagenet` commands |
 
 ---
 
@@ -23,16 +43,16 @@ orchestration. Targets COCO/ImageNet datasets and their long-tail derivatives.
 
 ```bash
 # Core (no ML framework required)
-pip install cvdatakit
+pip install cvquality
 
 # With PyTorch backend
-pip install "cvdatakit[torch]"
+pip install "cvquality[torch]"
 
 # With TensorFlow backend
-pip install "cvdatakit[tensorflow]"
+pip install "cvquality[tensorflow]"
 
 # Everything + dev tools
-pip install "cvdatakit[all,dev]"
+pip install "cvquality[all,dev]"
 ```
 
 ---
@@ -42,8 +62,8 @@ pip install "cvdatakit[all,dev]"
 ### Dataset statistics
 
 ```python
-from cvdatakit.io import COCODataset
-from cvdatakit.stats import DatasetStats
+from cvquality.io import COCODataset
+from cvquality.stats import DatasetStats
 
 ds = COCODataset("annotations/instances_train2017.json")
 stats = DatasetStats(ds)
@@ -58,7 +78,7 @@ print(stats.tail_categories(percentile=10))
 ### Annotation quality checks
 
 ```python
-from cvdatakit.quality import AnnotationChecker
+from cvquality.quality import AnnotationChecker
 
 checker = AnnotationChecker(ds, min_bbox_area=4.0, max_overlap_iou=0.85)
 summary = checker.summary()
@@ -69,7 +89,7 @@ print(f"Total issues: {summary['total_issues']}")
 ### Label quality scoring (Confident Learning)
 
 ```python
-from cvdatakit.quality import LabelQualityScorer
+from cvquality.quality import LabelQualityScorer
 import numpy as np
 
 # pred_probs: (N, K) out-of-fold predictions from your model
@@ -82,7 +102,7 @@ print(lq.summary())
 ### Mislabel detection
 
 ```python
-from cvdatakit.quality import MislabelDetector
+from cvquality.quality import MislabelDetector
 
 md = MislabelDetector(embeddings, labels, n_neighbors=15)
 candidates = md.rank_candidates(top_k=100)
@@ -92,9 +112,9 @@ candidates = md.rank_candidates(top_k=100)
 ### Active learning
 
 ```python
-from cvdatakit.active_learning import ActiveLearningLoop, UncertaintyStrategy
-from cvdatakit.active_learning.backends import PyTorchBackend
-from cvdatakit.active_learning.loop import LoopConfig
+from cvquality.active_learning import ActiveLearningLoop, UncertaintyStrategy
+from cvquality.active_learning.backends import PyTorchBackend
+from cvquality.active_learning.loop import LoopConfig
 import torchvision.models as M
 
 model = M.resnet18(weights=M.ResNet18_Weights.DEFAULT)
@@ -112,7 +132,7 @@ print(loop.summary())
 ### COCO full-pipeline recipe
 
 ```python
-from cvdatakit.recipes import COCORecipe
+from cvquality.recipes import COCORecipe
 
 recipe = COCORecipe(
     "annotations/instances_train2017.json",
@@ -130,16 +150,16 @@ result = recipe.run()
 
 ```bash
 # Print dataset statistics
-cvdatakit stats annotations/instances_val2017.json
+cvquality stats annotations/instances_val2017.json
 
 # Run annotation checks
-cvdatakit check annotations/instances_val2017.json --min-bbox-area 4 --max-iou 0.85
+cvquality check annotations/instances_val2017.json --min-bbox-area 4 --max-iou 0.85
 
 # Generate full HTML + JSON report
-cvdatakit report annotations/instances_val2017.json --output-dir ./reports --name "COCO-val"
+cvquality report annotations/instances_val2017.json --output-dir ./reports --name "COCO-val"
 
 # Analyse an ImageNet-style folder
-cvdatakit imagenet /data/imagenet/val --output-dir ./reports
+cvquality imagenet /data/imagenet/val --output-dir ./reports
 ```
 
 ---
@@ -180,8 +200,8 @@ embeddings = my_loader.get_embeddings()   # (N, D)
 labels      = my_loader.get_labels()      # (N,)
 pred_probs  = my_model.predict(images)    # (N, K)
 
-from cvdatakit.quality import LabelQualityScorer, MislabelDetector
-from cvdatakit.active_learning.strategies import UncertaintyStrategy
+from cvquality.quality import LabelQualityScorer, MislabelDetector
+from cvquality.active_learning.strategies import UncertaintyStrategy
 
 lq       = LabelQualityScorer(pred_probs, labels)
 md       = MislabelDetector(embeddings, labels)
@@ -194,7 +214,7 @@ indices  = strategy.query(pred_probs, budget=100)
 ## Project Structure
 
 ```
-cvdatakit/
+cvquality/
 ├── stats/              Dataset statistics & imbalance metrics
 ├── quality/            Label quality, mislabel detection, annotation checks
 ├── active_learning/
@@ -216,6 +236,14 @@ pip install build twine
 python -m build
 twine upload dist/*
 ```
+
+---
+
+## Authors
+
+**cvquality** is authored and maintained by **Sai Teja Erukude**.
+
+- **Homepage / repository:** https://github.com/SaiTeja-Erukude/cvquality
 
 ---
 

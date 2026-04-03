@@ -65,7 +65,7 @@ class ActiveLearningLoop:
     Parameters
     ----------
     backend:
-        A :class:`~cvdatakit.active_learning.backends.ModelBackend` instance.
+        A :class:`~cvquality.active_learning.backends.ModelBackend` instance.
     strategy:
         A query strategy (uncertainty, diversity, or error-localization).
     images:

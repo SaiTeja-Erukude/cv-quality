@@ -10,7 +10,7 @@ from typing import Any, Dict, Tuple
 import numpy as np
 import pytest
 
-from cvdatakit.io.coco_reader import COCODataset
+from cvquality.io.coco_reader import COCODataset
 
 
 # ── COCO fixture factory ──────────────────────────────────────────────────────

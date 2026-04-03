@@ -1,4 +1,4 @@
-"""Tests for cvdatakit.io."""
+"""Tests for cvquality.io."""
 
 from __future__ import annotations
 
@@ -8,8 +8,8 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from cvdatakit.io.coco_reader import COCODataset
-from cvdatakit.io.report import ReportGenerator, _escape
+from cvquality.io.coco_reader import COCODataset
+from cvquality.io.report import ReportGenerator, _escape
 
 
 class TestCOCODataset:

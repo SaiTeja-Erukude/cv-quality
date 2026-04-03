@@ -7,21 +7,21 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 from scipy.stats import entropy as scipy_entropy
 
-from cvdatakit.io.coco_reader import COCODataset
+from cvquality.io.coco_reader import COCODataset
 
 
 class DatasetStats:
-    """Compute and expose statistics for a :class:`~cvdatakit.io.COCODataset`.
+    """Compute and expose statistics for a :class:`~cvquality.io.COCODataset`.
 
     Parameters
     ----------
     dataset:
-        A loaded :class:`~cvdatakit.io.COCODataset`.
+        A loaded :class:`~cvquality.io.COCODataset`.
 
     Examples
     --------
-    >>> from cvdatakit.io import COCODataset
-    >>> from cvdatakit.stats import DatasetStats
+    >>> from cvquality.io import COCODataset
+    >>> from cvquality.stats import DatasetStats
     >>> ds = COCODataset("instances_train2017.json")
     >>> stats = DatasetStats(ds)
     >>> print(stats.summary())

@@ -1,13 +1,13 @@
-"""Tests for cvdatakit.active_learning."""
+"""Tests for cvquality.active_learning."""
 
 from __future__ import annotations
 
 import numpy as np
 import pytest
 
-from cvdatakit.active_learning.strategies.diversity import DiversityStrategy
-from cvdatakit.active_learning.strategies.error_localization import ErrorLocalizationStrategy
-from cvdatakit.active_learning.strategies.uncertainty import UncertaintyStrategy
+from cvquality.active_learning.strategies.diversity import DiversityStrategy
+from cvquality.active_learning.strategies.error_localization import ErrorLocalizationStrategy
+from cvquality.active_learning.strategies.uncertainty import UncertaintyStrategy
 
 
 # ── shared fixtures ───────────────────────────────────────────────────────────

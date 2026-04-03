@@ -5,14 +5,14 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from cvdatakit.io.coco_reader import COCODataset
-from cvdatakit.io.report import ReportGenerator
-from cvdatakit.quality.annotation_checks import AnnotationChecker
-from cvdatakit.stats.dataset_stats import DatasetStats
+from cvquality.io.coco_reader import COCODataset
+from cvquality.io.report import ReportGenerator
+from cvquality.quality.annotation_checks import AnnotationChecker
+from cvquality.stats.dataset_stats import DatasetStats
 
 
 class COCORecipe:
-    """Run the full cvdatakit analysis pipeline on a COCO-format dataset.
+    """Run the full cvquality analysis pipeline on a COCO-format dataset.
 
     Steps performed
     ---------------
@@ -38,7 +38,7 @@ class COCORecipe:
 
     Example
     -------
-    >>> from cvdatakit.recipes import COCORecipe
+    >>> from cvquality.recipes import COCORecipe
     >>> recipe = COCORecipe("annotations/instances_train2017.json")
     >>> report = recipe.run()
     >>> print(report["stats"]["class_imbalance"])
@@ -119,7 +119,7 @@ class COCORecipe:
 
         # ── 3. optional label quality ─────────────────────────────────────────
         if pred_probs is not None and labels is not None:
-            from cvdatakit.quality.label_quality import LabelQualityScorer
+            from cvquality.quality.label_quality import LabelQualityScorer
 
             probs_arr = np.asarray(pred_probs)
             labels_arr = np.asarray(labels)
@@ -131,7 +131,7 @@ class COCORecipe:
 
         # ── 4. optional mislabel detection ────────────────────────────────────
         if embeddings is not None and labels is not None:
-            from cvdatakit.quality.mislabel_detection import MislabelDetector
+            from cvquality.quality.mislabel_detection import MislabelDetector
 
             emb_arr = np.asarray(embeddings)
             labels_arr = np.asarray(labels)

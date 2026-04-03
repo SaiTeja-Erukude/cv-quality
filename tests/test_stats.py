@@ -1,11 +1,11 @@
-"""Tests for cvdatakit.stats."""
+"""Tests for cvquality.stats."""
 
 from __future__ import annotations
 
 import numpy as np
 import pytest
 
-from cvdatakit.stats.dataset_stats import DatasetStats, _gini
+from cvquality.stats.dataset_stats import DatasetStats, _gini
 
 
 class TestGini:

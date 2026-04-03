@@ -1,5 +1,5 @@
 """
-smoke_test.py – quick manual check of every cvdatakit module.
+smoke_test.py – quick manual check of every cvquality module.
 Run: python smoke_test.py
 No real images or annotation files required.
 """
@@ -46,13 +46,13 @@ def make_coco_json(tmp: Path) -> Path:
 
 # ── 1. io ─────────────────────────────────────────────────────────────────────
 
-section("1. cvdatakit.io  —  COCODataset + ReportGenerator")
+section("1. cvquality.io  —  COCODataset + ReportGenerator")
 
 with tempfile.TemporaryDirectory() as _tmp:
     tmp = Path(_tmp)
     ann_file = make_coco_json(tmp)
 
-    from cvdatakit.io import COCODataset, ReportGenerator
+    from cvquality.io import COCODataset, ReportGenerator
 
     ds = COCODataset(ann_file)
     assert ds.num_images == 30
@@ -81,9 +81,9 @@ ds = COCODataset(ann_file2)
 
 # ── 2. stats ──────────────────────────────────────────────────────────────────
 
-section("2. cvdatakit.stats  —  DatasetStats")
+section("2. cvquality.stats  —  DatasetStats")
 
-from cvdatakit.stats import DatasetStats
+from cvquality.stats import DatasetStats
 
 stats = DatasetStats(ds)
 summary = stats.summary()
@@ -108,9 +108,9 @@ print(f"{PASS}  class_distribution  top={dist[0]['name']}({dist[0]['count']})  b
 
 # ── 3. quality ────────────────────────────────────────────────────────────────
 
-section("3. cvdatakit.quality  —  AnnotationChecker")
+section("3. cvquality.quality  —  AnnotationChecker")
 
-from cvdatakit.quality import AnnotationChecker
+from cvquality.quality import AnnotationChecker
 
 checker = AnnotationChecker(ds, min_bbox_area=4.0, max_overlap_iou=0.85)
 chk_summary = checker.summary()
@@ -118,9 +118,9 @@ print(f"{PASS}  AnnotationChecker  total_issues={chk_summary['total_issues']}")
 print(f"       by_type: {chk_summary['by_type']}")
 print(f"       by_severity: {chk_summary['by_severity']}")
 
-section("3b. cvdatakit.quality  —  LabelQualityScorer")
+section("3b. cvquality.quality  —  LabelQualityScorer")
 
-from cvdatakit.quality import LabelQualityScorer
+from cvquality.quality import LabelQualityScorer
 
 rng = np.random.default_rng(42)
 N, K = 200, 6
@@ -137,9 +137,9 @@ print(f"{PASS}  ranked_issues top-5: {[(i['index'], i['given_label'], i['predict
 joint, marginal = lq.confusion_matrix()
 print(f"{PASS}  confusion_matrix  shape={joint.shape}  marginal_sum={marginal.sum():.4f}")
 
-section("3c. cvdatakit.quality  —  MislabelDetector")
+section("3c. cvquality.quality  —  MislabelDetector")
 
-from cvdatakit.quality import MislabelDetector
+from cvquality.quality import MislabelDetector
 
 k, n_per = 6, 40
 centers = np.eye(k, 32)
@@ -160,7 +160,7 @@ for c in candidates:
 
 section("4a. active_learning  —  UncertaintyStrategy")
 
-from cvdatakit.active_learning.strategies import UncertaintyStrategy
+from cvquality.active_learning.strategies import UncertaintyStrategy
 
 pool_probs = rng.dirichlet(np.ones(K), size=300).astype(np.float32)
 
@@ -178,7 +178,7 @@ print(f"{PASS}  bald (mc_samples)  scores shape={scores_bald.shape}  mean={score
 
 section("4b. active_learning  —  DiversityStrategy")
 
-from cvdatakit.active_learning.strategies import DiversityStrategy
+from cvquality.active_learning.strategies import DiversityStrategy
 
 pool_emb = rng.standard_normal((300, 64)).astype(np.float32)
 labeled_emb = rng.standard_normal((50, 64)).astype(np.float32)
@@ -191,7 +191,7 @@ for method in ("coreset", "cluster_margin", "minmax"):
 
 section("4c. active_learning  —  ErrorLocalizationStrategy")
 
-from cvdatakit.active_learning.strategies import ErrorLocalizationStrategy
+from cvquality.active_learning.strategies import ErrorLocalizationStrategy
 
 grads = rng.standard_normal((300, 256)).astype(np.float32)
 spatial_logits = rng.standard_normal((20, 8, 8, K)).astype(np.float32)
@@ -213,7 +213,7 @@ for method, kwargs in [
 
 section("5a. recipes  —  COCORecipe")
 
-from cvdatakit.recipes import COCORecipe
+from cvquality.recipes import COCORecipe
 
 with tempfile.TemporaryDirectory() as _tmp:
     tmp = Path(_tmp)
@@ -232,7 +232,7 @@ with tempfile.TemporaryDirectory() as _tmp:
 
 section("5b. recipes  —  ImageNetRecipe")
 
-from cvdatakit.recipes import ImageNetRecipe
+from cvquality.recipes import ImageNetRecipe
 
 with tempfile.TemporaryDirectory() as _tmp:
     tmp = Path(_tmp)
